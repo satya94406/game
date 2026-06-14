@@ -1,0 +1,50 @@
+# Full local stack: MySQL + Spring Boot backend + nginx-served React frontend.
+#
+#   Everything (one command):  docker compose up --build      -> http://localhost:8088
+#   Just MySQL (native dev):   docker compose up -d mysql
+#   Stop:                      docker compose down            (add -v to wipe the DB volume)
+services:
+  mysql:
+    image: mysql:8
+    container_name: skribbl_mysql
+    environment:
+      MYSQL_DATABASE: skribbl
+      MYSQL_USER: skribbl
+      MYSQL_PASSWORD: skribbl123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      - "3309:3306" # host 3309 -> container 3306 (3306/3307/3308 were already taken on this machine)
+    volumes:
+      - skribbl_mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  backend:
+    build: ./backend
+    container_name: skribbl_backend
+    environment:
+      # Reach MySQL by its service name on the compose network.
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/skribbl?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: skribbl
+      SPRING_DATASOURCE_PASSWORD: skribbl123
+    depends_on:
+      mysql:
+        condition: service_healthy
+    # The frontend (nginx) proxies to the backend over the internal network, so the
+    # backend port need not be published. Uncomment to hit the API directly from the host:
+    # ports:
+    #   - "8080:8080"
+
+  frontend:
+    build: ./frontend
+    container_name: skribbl_frontend
+    depends_on:
+      - backend
+    ports:
+      - "8088:80" # open http://localhost:8088 (or http://<your-ip>:8088 on the LAN)
+
+volumes:
+  skribbl_mysql_data:

@@ -1,0 +1,44 @@
+{
+  "en": {
+    "animals": [
+      "dog", "cat", "elephant", "giraffe", "penguin", "dolphin", "kangaroo", "octopus",
+      "butterfly", "crocodile", "hedgehog", "squirrel", "flamingo", "rhinoceros", "owl",
+      "shark", "snail", "tiger", "zebra", "monkey", "rabbit", "frog", "bat", "spider"
+    ],
+    "food": [
+      "pizza", "hamburger", "spaghetti", "pancake", "popcorn", "watermelon", "pineapple",
+      "ice cream", "donut", "sandwich", "sushi", "taco", "cupcake", "pretzel", "avocado",
+      "strawberry", "cheese", "hotdog", "cookie", "banana", "carrot", "egg", "bread"
+    ],
+    "objects": [
+      "umbrella", "telephone", "scissors", "toothbrush", "ladder", "lightbulb", "anchor",
+      "clock", "key", "candle", "balloon", "guitar", "camera", "glasses", "backpack",
+      "hammer", "bucket", "mirror", "pillow", "trophy", "magnet", "compass", "kite"
+    ],
+    "sports": [
+      "soccer", "basketball", "tennis", "swimming", "boxing", "skateboarding", "surfing",
+      "golf", "bowling", "archery", "cycling", "skiing", "volleyball", "baseball",
+      "karate", "fishing", "running", "diving", "hockey", "rowing"
+    ],
+    "nature": [
+      "mountain", "rainbow", "volcano", "waterfall", "tornado", "island", "desert",
+      "forest", "river", "cactus", "snowflake", "lightning", "sunflower", "mushroom",
+      "iceberg", "cave", "tree", "cloud", "beach", "moon"
+    ],
+    "vehicles": [
+      "airplane", "submarine", "helicopter", "bicycle", "tractor", "rocket", "sailboat",
+      "motorcycle", "ambulance", "train", "bus", "truck", "scooter", "canoe",
+      "spaceship", "skateboard", "tank", "ferry", "taxi", "van"
+    ],
+    "jobs": [
+      "doctor", "firefighter", "astronaut", "chef", "teacher", "pilot", "farmer",
+      "police officer", "scientist", "artist", "dentist", "magician", "carpenter",
+      "lifeguard", "barber", "judge", "clown", "waiter", "nurse", "sailor"
+    ],
+    "actions": [
+      "running", "jumping", "sleeping", "dancing", "singing", "swimming", "cooking",
+      "reading", "painting", "climbing", "laughing", "crying", "fishing", "juggling",
+      "sneezing", "yawning", "waving", "digging", "skipping", "hugging"
+    ]
+  }
+}
