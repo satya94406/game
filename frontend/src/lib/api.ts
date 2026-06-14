@@ -1,7 +1,7 @@
 import type { RoomSettings } from '../types/messages'
 
 // Empty base => same origin; the Vite dev server proxies /api to the backend.
-const BASE = (import.meta.env.VITE_API_BASE as string) || ''
+const BASE = (import.meta.env.VITE_API_URL as string) || ''
 
 export async function createRoom(settings: Partial<RoomSettings>): Promise<string> {
   const res = await fetch(`${BASE}/api/rooms`, {

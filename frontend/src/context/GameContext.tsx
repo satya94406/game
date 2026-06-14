@@ -23,8 +23,8 @@ import type {
   ServerMessage,
 } from '../types/messages'
 
-const WS_URL = (import.meta.env.VITE_WS_URL as string) || '/ws'
-
+const BASE = (import.meta.env.VITE_API_URL as string) || ''
+const WS_URL = `${BASE}/ws`
 // Canvas traffic is kept out of React state (it is too high-frequency); the Canvas
 // component subscribes to this event stream directly.
 export type CanvasEvent =
