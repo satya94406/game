@@ -8,11 +8,6 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 @Configuration
 public class AppConfig {
 
-    /**
-     * Drives round countdowns, hint reveals, and the gap between rounds.
-     * {@code removeOnCancelPolicy} keeps cancelled timers from piling up when a
-     * round ends early (everyone guessed) or the drawer disconnects.
-     */
     @Bean
     public TaskScheduler gameTaskScheduler() {
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();

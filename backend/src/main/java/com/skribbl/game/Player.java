@@ -2,7 +2,6 @@ package com.skribbl.game;
 
 import com.skribbl.dto.Avatar;
 
-/** A participant in a room. Identity ({@code id}) is supplied by the client on join. */
 public class Player {
 
     private final String id;

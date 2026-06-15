@@ -9,7 +9,7 @@ chat, points are awarded for guessing quickly, and the highest score after all r
 | Layer       | Technology                                                  |
 | ----------- | ----------------------------------------------------------- |
 | Backend     | Java 21 · Spring Boot 3.5 · Spring WebSocket (STOMP)        |
-| Persistence | JPA / Hibernate · MySQL 8                                    |
+| Persistence | JPA / Hibernate · Postgre Sql                                   |
 | Real-time   | STOMP over SockJS                                           |
 | Frontend    | React 18 · Vite · TypeScript · Tailwind CSS · HTML5 Canvas  |
 | Build / run | Maven (wrapper) · npm · Docker + Docker Compose             |

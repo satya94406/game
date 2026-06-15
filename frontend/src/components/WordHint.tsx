@@ -1,6 +1,5 @@
 import { useGame } from '../context/GameContext'
 
-/** The word being guessed: real letters for the drawer, masked blanks for everyone else. */
 export default function WordHint() {
   const { phase, isDrawer, chosenWord, maskedWord, wordLength } = useGame()
   if (phase !== 'DRAWING') {

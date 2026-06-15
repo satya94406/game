@@ -3,20 +3,16 @@ package com.skribbl.game;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Host-configurable room settings. Bounds mirror the assignment spec and are
- * enforced by {@link #clamp()} whenever settings arrive from a client.
- */
 public class RoomSettings {
 
-    private int maxPlayers = 8;     // 2..20
-    private int rounds = 3;         // 2..10
-    private int drawTime = 80;      // 15..240 seconds
-    private int wordCount = 3;      // 1..5 options offered to the drawer
-    private int hints = 2;          // 0..5 letters revealed over a turn
+    private int maxPlayers = 8;     
+    private int rounds = 3;        
+    private int drawTime = 80;      
+    private int wordCount = 3;     
+    private int hints = 2;         
     private boolean publicRoom = false;
     private String language = "en";
-    private List<String> categories = new ArrayList<>(); // empty == all categories
+    private List<String> categories = new ArrayList<>(); 
 
     public void clamp() {
         maxPlayers = clamp(maxPlayers, 2, 20);
@@ -36,7 +32,6 @@ public class RoomSettings {
         return Math.max(lo, Math.min(hi, value));
     }
 
-    /** Copy host-editable fields from an incoming settings object, then re-clamp. */
     public void copyFrom(RoomSettings other) {
         this.maxPlayers = other.maxPlayers;
         this.rounds = other.rounds;

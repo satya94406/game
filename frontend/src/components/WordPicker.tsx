@@ -1,6 +1,5 @@
 import { useGame } from '../context/GameContext'
 
-/** CHOOSING-phase overlay: the drawer picks a word; everyone else sees a waiting note. */
 export default function WordPicker() {
   const { phase, isDrawer, wordOptions, drawerName, actions } = useGame()
   if (phase !== 'CHOOSING') {

@@ -9,12 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 
-/**
- * The active match within a {@link Room}: turn order, the current word, hints,
- * per-turn guesses, and scoring. Holds a back-reference to its room to read the
- * live (connected) player set. Pure game logic — no Spring or messaging here, so
- * it stays unit-testable. Orchestration (timers, broadcasts) lives in the service layer.
- */
+
 public class Game {
 
     public enum GuessOutcome { CORRECT, CLOSE, WRONG, IGNORED }
@@ -26,7 +21,7 @@ public class Game {
     private final Room room;
     private final int totalRounds;
 
-    private int currentRound = 0;            // 1-based once started
+    private int currentRound = 0;            
     private List<String> drawerOrder = new ArrayList<>();
     private int drawerIndex = -1;
     private String currentDrawerId;
@@ -38,10 +33,10 @@ public class Game {
     private long turnStartMillis;
     private long turnEndMillis;
 
-    private final Set<String> guessedPlayers = new LinkedHashSet<>();      // correct, in guess order
-    private final Map<String, Double> guessFraction = new HashMap<>();     // playerId -> fraction of time left at guess
-    private final Map<String, Integer> roundGains = new HashMap<>();       // points gained this turn (incl. drawer)
-    private final Set<Integer> revealedHints = new HashSet<>();            // revealed letter indices
+    private final Set<String> guessedPlayers = new LinkedHashSet<>();     
+    private final Map<String, Double> guessFraction = new HashMap<>();     
+    private final Map<String, Integer> roundGains = new HashMap<>();       
+    private final Set<Integer> revealedHints = new HashSet<>();           
 
     private final Random random = new Random();
 
@@ -80,7 +75,6 @@ public class Game {
         return wordOptions;
     }
 
-    /** Lock in the drawer's word and enter DRAWING. Falls back to the first option (timeout auto-pick). */
     public boolean chooseWord(String word) {
         if (phase != GamePhase.CHOOSING) {
             return false;
@@ -134,7 +128,6 @@ public class Game {
         return GuessOutcome.WRONG;
     }
 
-    /** True once every connected non-drawer has guessed (or nobody is left to guess). */
     public boolean everyoneGuessed() {
         List<String> others = new ArrayList<>(room.connectedPlayerIds());
         others.remove(currentDrawerId);
@@ -144,7 +137,6 @@ public class Game {
         return guessedPlayers.containsAll(others);
     }
 
-    /** Award drawer points (by how many guessed and how fast), then enter ROUND_END. */
     public void endTurn() {
         if (!guessFraction.isEmpty()) {
             double avg = guessFraction.values().stream().mapToDouble(Double::doubleValue).average().orElse(0);
@@ -158,9 +150,8 @@ public class Game {
         phase = GamePhase.ROUND_END;
     }
 
-    /** Advance to the next connected drawer; returns false when all rounds are done. */
     public boolean advance() {
-        int maxSteps = (drawerOrder.size() + 1) * 2 + 4; // bound the skip-disconnected loop
+        int maxSteps = (drawerOrder.size() + 1) * 2 + 4; 
         for (int step = 0; step < maxSteps; step++) {
             drawerIndex++;
             if (drawerIndex >= drawerOrder.size()) {
@@ -205,7 +196,6 @@ public class Game {
         return sb.toString();
     }
 
-    /** Reveal one more random letter (always keeping at least one hidden). Returns the new mask. */
     public String revealNextHint() {
         if (currentWord == null) {
             return "";
@@ -251,7 +241,6 @@ public class Game {
         return s == null ? "" : s.trim().toLowerCase().replaceAll("\\s+", " ");
     }
 
-    /** A near-miss: same word off by a single edit (only meaningful for longer words). */
     public static boolean isClose(String guess, String word) {
         String g = normalize(guess);
         String w = normalize(word);
@@ -280,12 +269,10 @@ public class Game {
         return prev[b.length()];
     }
 
-    /** Force-end the match (e.g. too few players remain to continue). */
     public void markGameOver() {
         this.phase = GamePhase.GAME_OVER;
     }
 
-    // --- accessors ---
 
     public GamePhase getPhase() {
         return phase;

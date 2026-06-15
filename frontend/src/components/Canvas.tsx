@@ -16,12 +16,6 @@ interface Stroke {
   points: Point[]
 }
 
-/**
- * Renders the shared canvas purely from server events (DRAW/CLEAR/UNDO + a replay
- * snapshot for late joiners). The drawer's pointer input is sent to the server and
- * comes back as the same events, so every client — including the drawer — stays
- * pixel-consistent. Coordinates are normalized [0,1] so all sizes match.
- */
 export default function Canvas({ tool }: { tool: Tool }) {
   const { isDrawer, subscribeCanvas, replay, actions } = useGame()
 
@@ -108,7 +102,6 @@ export default function Canvas({ tool }: { tool: Tool }) {
     }
   }
 
-  // Resize: keep the bitmap crisp (DPR) and re-render stored (normalized) strokes.
   useEffect(() => {
     const wrap = wrapRef.current
     const canvas = canvasRef.current
@@ -134,10 +127,8 @@ export default function Canvas({ tool }: { tool: Tool }) {
     return () => ro.disconnect()
   }, [])
 
-  // Live events.
   useEffect(() => subscribeCanvas(applyEvent), [subscribeCanvas])
 
-  // Replay snapshot (late join / first paint).
   useEffect(() => {
     if (!replay) {
       return
@@ -153,10 +144,8 @@ export default function Canvas({ tool }: { tool: Tool }) {
         applyEvent({ kind: 'UNDO' })
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [replay])
 
-  // --- drawer pointer input ---
 
   const normPoint = (e: RPE<HTMLCanvasElement>): Point => {
     const rect = canvasRef.current!.getBoundingClientRect()

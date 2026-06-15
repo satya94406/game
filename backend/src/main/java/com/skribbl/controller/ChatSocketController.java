@@ -8,7 +8,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-/** Guess + chat STOMP actions. The in-game text box sends guesses; the server classifies them. */
 @Controller
 public class ChatSocketController {
 

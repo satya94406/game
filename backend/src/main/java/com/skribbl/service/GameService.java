@@ -16,15 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * The orchestration hub ("message handler") that turns inbound client actions and
- * fired timers into mutations of the in-memory {@link Room}/{@link Game} model plus
- * outbound broadcasts. Controllers and the disconnect listener stay thin and delegate here.
- *
- * <p>Phase flow per turn: CHOOSING (drawer picks a word, with an auto-pick timeout) →
- * DRAWING (round timer + spaced hint reveals) → ROUND_END (scores shown) → next turn,
- * until all rounds are done → GAME_OVER (leaderboard persisted to MySQL).
- */
+
 @Service
 public class GameService {
 
@@ -51,7 +43,6 @@ public class GameService {
         this.historyService = historyService;
     }
 
-    // ===================== inbound actions =====================
 
     public void handleJoin(String code, In.Join msg) {
         Room room = roomManager.getRoom(code);
@@ -82,7 +73,6 @@ public class GameService {
         broadcast.toRoom(code, "SYSTEM", new Out.System(player.getName() + " joined"));
 
         if (room.getPhase() != GamePhase.LOBBY) {
-            // catch a late joiner up: full snapshot incl. the canvas so far
             broadcast.toPlayer(code, player.getId(), "STATE", buildState(room, true));
         }
     }
@@ -140,8 +130,8 @@ public class GameService {
             return;
         }
         ServerMessage event = ServerMessage.of("DRAW", draw);
-        room.recordDrawEvent(event);   // buffered for late-join replay
-        broadcast.toRoom(code, event); // non-drawers render this; the drawer ignores its own echo
+        room.recordDrawEvent(event);   
+        broadcast.toRoom(code, event); 
     }
 
     public void handleClear(String code, String playerId) {
@@ -200,7 +190,7 @@ public class GameService {
         switch (outcome) {
             case CORRECT -> {
                 broadcast.toRoom(code, "GUESS", new Out.Guess(playerId, player.getName(), true, null));
-                broadcastPlayers(room); // live scores + "guessed" badges
+                broadcastPlayers(room); 
                 if (everyoneGuessed) {
                     endTurn(code, "all-guessed");
                 }
@@ -212,7 +202,6 @@ public class GameService {
             case WRONG ->
                     broadcast.toRoom(code, "GUESS", new Out.Guess(playerId, player.getName(), false, clean(text)));
             case IGNORED -> {
-                // Drawer or an already-correct player typing: relay as chat, but never leak the word.
                 if (!Game.normalize(text).equals(Game.normalize(game.getCurrentWord()))) {
                     broadcast.toRoom(code, "CHAT", new Out.Chat(playerId, player.getName(), clean(text)));
                 }
@@ -278,7 +267,6 @@ public class GameService {
         removePlayer(code, playerId);
     }
 
-    // ===================== phase transitions =====================
 
     private void startChoosingPhase(Room room) {
         String code = room.getCode();
@@ -288,7 +276,7 @@ public class GameService {
         Game game = room.getGame();
         String drawerId = game.getCurrentDrawerId();
         Player drawer = room.getPlayer(drawerId);
-        if (drawer == null) { // drawer vanished between scheduling and firing
+        if (drawer == null) { 
             nextTurn(code);
             return;
         }
@@ -318,7 +306,7 @@ public class GameService {
             if (game == null || game.getPhase() != GamePhase.CHOOSING) {
                 return;
             }
-            game.chooseWord(null); // falls back to the first option
+            game.chooseWord(null); 
         }
         beginDrawingPhase(room);
     }
@@ -365,7 +353,7 @@ public class GameService {
         synchronized (room) {
             game = room.getGame();
             if (game == null || game.getPhase() != GamePhase.DRAWING) {
-                return; // already ended (timer raced with everyone-guessed)
+                return; 
             }
             game.endTurn();
         }
@@ -414,7 +402,7 @@ public class GameService {
         if (game != null) {
             game.markGameOver();
         }
-        List<PlayerDto> leaderboard = playerDtos(room); // already sorted by score desc
+        List<PlayerDto> leaderboard = playerDtos(room); 
         PlayerDto winner = leaderboard.isEmpty() ? null : leaderboard.get(0);
 
         broadcast.toRoom(code, "GAME_OVER", new Out.GameOver(
@@ -463,7 +451,7 @@ public class GameService {
                 if (phase == GamePhase.DRAWING) {
                     endTurn(code, "drawer-left");
                 } else {
-                    nextTurn(code); // drawer left while choosing — skip to the next drawer
+                    nextTurn(code); 
                 }
             } else if (phase == GamePhase.DRAWING) {
                 boolean everyone;
@@ -478,7 +466,6 @@ public class GameService {
         }
     }
 
-    // ===================== view helpers =====================
 
     private void broadcastPlayers(Room room) {
         broadcast.toRoom(room.getCode(), "PLAYERS", new Out.Players(playerDtos(room), room.getHostId()));

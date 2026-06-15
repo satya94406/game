@@ -14,7 +14,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Persists a finished game to MySQL and exposes the recent-games list. */
 @Service
 public class GameHistoryService {
 

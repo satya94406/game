@@ -19,7 +19,6 @@ export default function LobbyView() {
       setCopied(true)
       setTimeout(() => setCopied(false), 1500)
     } catch {
-      /* clipboard may be blocked; ignore */
     }
   }
 

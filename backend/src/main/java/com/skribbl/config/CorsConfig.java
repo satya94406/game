@@ -5,10 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * Opens the REST API ({@code /api/**}) to the Vite dev server origin.
- * (The SockJS handshake CORS is configured separately in {@link WebSocketConfig}.)
- */
+
 @Configuration
 public class CorsConfig implements WebMvcConfigurer {
 

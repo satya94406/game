@@ -14,11 +14,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
-/**
- * Per-room scheduled tasks (choose-timeout, round-end, hint reveals, inter-round gap).
- * Every phase transition calls {@link #cancelAll(String)} first, so a timer from a
- * previous turn can never fire into the next one.
- */
+
 @Service
 public class GameTimerService {
 

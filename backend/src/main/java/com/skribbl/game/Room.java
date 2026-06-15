@@ -8,21 +8,14 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-/**
- * A room: the durable container for players, settings, the canvas draw log, and
- * (once started) a {@link Game}. All mutating methods synchronize on the room
- * instance; {@code GameService} synchronizes on the same monitor for compound
- * operations so guesses and turn transitions never race.
- */
 public class Room {
 
     private final String code;
     private final RoomSettings settings;
-    private final LinkedHashMap<String, Player> players = new LinkedHashMap<>(); // join order
+    private final LinkedHashMap<String, Player> players = new LinkedHashMap<>();
     private String hostId;
     private Game game;
 
-    /** Current turn's draw events, replayed to late joiners; reset each turn and on clear. */
     private final List<ServerMessage> drawLog = new ArrayList<>();
 
     public Room(String code, RoomSettings settings) {
@@ -30,11 +23,10 @@ public class Room {
         this.settings = settings;
     }
 
-    // --- players ---
 
     public synchronized Player addPlayer(String id, String name, Avatar avatar) {
         Player existing = players.get(id);
-        if (existing != null) { // reconnect / refresh of an existing identity
+        if (existing != null) {
             existing.setConnected(true);
             existing.setName(name);
             if (avatar != null) {
@@ -136,7 +128,6 @@ public class Room {
         return players.size() >= settings.getMaxPlayers();
     }
 
-    // --- canvas draw log (replayed to late joiners) ---
 
     public synchronized void recordDrawEvent(ServerMessage msg) {
         drawLog.add(msg);
@@ -150,7 +141,6 @@ public class Room {
         return new ArrayList<>(drawLog);
     }
 
-    // --- accessors ---
 
     public String getCode() {
         return code;

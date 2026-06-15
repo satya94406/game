@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
 
-/** Turns uncaught REST errors into a small JSON body instead of a stack-trace page. */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

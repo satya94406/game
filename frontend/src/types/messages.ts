@@ -1,4 +1,3 @@
-// Wire contract — mirrors the backend dto.Out / dto.In records.
 
 export type Phase = 'LOBBY' | 'CHOOSING' | 'DRAWING' | 'ROUND_END' | 'GAME_OVER'
 
@@ -49,7 +48,6 @@ export interface DrawBatch {
   done: boolean
 }
 
-// ---- outbound payloads (server -> client) ----
 
 export interface JoinedData {
   playerId: string
@@ -116,7 +114,6 @@ export interface GameOverData {
   winnerName: string | null
 }
 
-// ---- local UI model ----
 
 export type ChatKind = 'guess-correct' | 'guess-wrong' | 'chat' | 'system'
 

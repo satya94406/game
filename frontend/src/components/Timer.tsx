@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 
-/**
- * Local countdown. Remount it with a `key` whenever the turn/phase changes so it
- * restarts cleanly; it also resets if the `seconds` prop changes.
- */
+
 export default function Timer({ seconds, total }: { seconds: number; total: number }) {
   const [remaining, setRemaining] = useState(seconds)
 

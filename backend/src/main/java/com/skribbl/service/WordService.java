@@ -22,7 +22,6 @@ public class WordService {
         return wordRepository.findCategories(language);
     }
 
-    /** A fresh random set of {@code wordCount} options for the drawer, from the room's categories. */
     public List<String> randomWords(RoomSettings settings) {
         String language = settings.getLanguage();
         List<Word> pool;
@@ -32,7 +31,7 @@ public class WordService {
             pool = wordRepository.findByLanguageAndCategoryIn(language, settings.getCategories());
         }
         if (pool.isEmpty()) {
-            pool = wordRepository.findByLanguage(language); // fall back to the whole bank
+            pool = wordRepository.findByLanguage(language); 
         }
 
         List<Word> shuffled = new ArrayList<>(pool);

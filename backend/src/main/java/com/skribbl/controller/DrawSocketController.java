@@ -8,7 +8,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.stereotype.Controller;
 
-/** Drawing STOMP actions (drawer-only, enforced server-side): draw / clear / undo. */
 @Controller
 public class DrawSocketController {
 

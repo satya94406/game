@@ -15,10 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Seeds the word bank from {@code words.json} on first startup.
- * Structure of the file: {@code { "<language>": { "<category>": ["word", ...] } }}.
- */
+
 @Component
 public class DataSeeder implements CommandLineRunner {
 

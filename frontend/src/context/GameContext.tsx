@@ -25,8 +25,7 @@ import type {
 
 const BASE = (import.meta.env.VITE_API_URL as string) || ''
 const WS_URL = `${BASE}/ws`
-// Canvas traffic is kept out of React state (it is too high-frequency); the Canvas
-// component subscribes to this event stream directly.
+
 export type CanvasEvent =
   | { kind: 'DRAW'; batch: DrawBatch }
   | { kind: 'CLEAR' }
@@ -258,7 +257,7 @@ export function GameProvider({
           emitCanvas({ kind: 'UNDO' })
           return
         case 'ROUND_START':
-          emitCanvas({ kind: 'CLEAR' }) // fresh canvas for the new turn
+          emitCanvas({ kind: 'CLEAR' }) 
           dispatch({ type: message.type, data: message.data })
           return
         default:
@@ -297,7 +296,6 @@ export function GameProvider({
           client.publish({ destination: `/app/room/${code}/leave`, body: '{}' })
         }
       } catch {
-        /* ignore */
       }
       client.deactivate()
       clientRef.current = null

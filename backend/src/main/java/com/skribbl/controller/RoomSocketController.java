@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Map;
 
-/** Room/lobby/turn STOMP actions: {@code /app/room/{code}/...}. */
 @Controller
 public class RoomSocketController {
 

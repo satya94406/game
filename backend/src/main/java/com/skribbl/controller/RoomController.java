@@ -20,11 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * REST surface used before the WebSocket connection: create a room, peek/validate a
- * code, list public rooms, fetch word categories, and read recent game history.
- * All live gameplay flows over STOMP, not REST.
- */
+
 @RestController
 @RequestMapping("/api")
 public class RoomController {

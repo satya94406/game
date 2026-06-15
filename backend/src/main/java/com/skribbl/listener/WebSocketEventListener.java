@@ -8,11 +8,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
 import java.util.Map;
 
-/**
- * Detects dropped connections. The {@code playerId} and room {@code code} stored in
- * the session attributes on join are read back here so the player can be removed and
- * the game advanced (drawer-left, host promotion, empty-room cleanup).
- */
+
 @Component
 public class WebSocketEventListener {
 

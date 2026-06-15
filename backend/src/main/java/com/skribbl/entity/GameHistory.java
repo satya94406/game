@@ -10,10 +10,6 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-/**
- * A finished game, persisted when a match ends. Powers the "recent games" view
- * and gives the otherwise in-memory game a durable record in MySQL.
- */
 @Entity
 @Table(name = "game_history")
 public class GameHistory {
@@ -34,7 +30,6 @@ public class GameHistory {
 
     private int winnerScore;
 
-    /** JSON array of {name, score} for the full final leaderboard. */
     @Lob
     @Column(columnDefinition = "TEXT")
     private String leaderboardJson;

@@ -8,10 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
-/**
- * A guessable word in the word bank, grouped by category and language.
- * Seeded from {@code words.json} on first startup (see {@link com.skribbl.config.DataSeeder}).
- */
+
 @Entity
 @Table(name = "words",
         uniqueConstraints = @UniqueConstraint(columnNames = {"text", "category", "language"}))
