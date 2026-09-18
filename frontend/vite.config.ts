@@ -11,7 +11,7 @@ export default defineConfig({
   },
   server: {
     host: true, // bind 0.0.0.0 so other devices on the LAN can reach the dev server
-    port: 5173,
+    port: 3000,
     proxy: {
       '/api': { target: 'http://localhost:8080', changeOrigin: true },
       '/ws': { target: 'http://localhost:8080', changeOrigin: true, ws: true },
